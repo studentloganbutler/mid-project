@@ -13,6 +13,8 @@ app.get("/", (_, res) => {
 
 // TODO: Use json middleware (if needed)
 
+app.use(express.json());
+
 // TODO: Mount the routes (maybe 🤔 /api)
 
 app.listen(config.port, () => {
