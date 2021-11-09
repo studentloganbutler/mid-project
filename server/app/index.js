@@ -15,6 +15,8 @@ app.get("/", (_, res) => {
 
 app.use(express.json());
 
+app.use("/api", router);
+
 // TODO: Mount the routes (maybe 🤔 /api)
 
 app.listen(config.port, () => {
