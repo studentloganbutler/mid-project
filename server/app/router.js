@@ -17,14 +17,14 @@ router.get("/", (_, res) => {
 // These routes go with localhost:3467
 
 
-router.get("/current-listings", async (_, res) => {
-    const listings = await loader
-        .db("sample_airbnb")
-        .collection("listingsAndReviews")
-        .find()
-        .toArray();
-    res.json(listings);
-});
+// router.get("/current-listings", async (_, res) => {
+//     const listings = await loader
+//         .db("sample_airbnb")
+//         .collection("listingsAndReviews")
+//         .find(Parameters go here)
+//         .toArray();
+//     res.json(listings);
+// });
 
 router.get("/:id", async (req, res) => {
     const id = await loader
@@ -33,6 +33,15 @@ router.get("/:id", async (req, res) => {
         .findOne({_id: ObjectId(req.params.id)})
         .toArray();
     res.json(id);
+});
+
+router.get("/review/:id", async (req, res) => {
+    const review = await loader
+        .db("sample_airbnb")
+        .collection("listingsAndReviews")
+        .findOne({_id: ObjectId(req.params.id)})
+        .toArray();
+    res.json(review);
 });
 
 export default router;
