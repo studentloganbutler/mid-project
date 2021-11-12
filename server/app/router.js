@@ -1,11 +1,11 @@
 import Router from "express";
-import config from "./config";
-import loader from "./loader";
+import config from "./config.js";
+import loader from "./loader.js";
 import {ObjectId} from "mongodb";
 
 const collection = loader 
     .db(config.db.name)
-    .collection(config.db.collection);
+    .collection(config.db.collectionName);
 const router = new Router();
 
 // TODO: Add routes here (maybe 🤔 start with a GET test route)
@@ -25,16 +25,16 @@ router.get("/", (_, res) => {
 //     res.json(listings);
 // });
 
-router.get("/:id", async (req, res) => {
-    const id = await loader
-        .db("sample_airbnb")
-        .collection("listingsAndReviews")
-        .findOne({_id: ObjectId(req.params.id)})
-        .toArray();
-    res.json(id);
-});
+// router.get("/:id", async (req, res) => {
+//     const id = await loader
+//         .db("sample_airbnb")
+//         .collection("listingsAndReviews")
+//         .findOne({_id: ObjectId(req.params.id)})
+//         .toArray();
+//     res.json(id);
+// });
 
-router.get("/review/:id", async (req, res) => {
+router.get("/reviews/:id", async (req, res) => {
     const review = await loader
         .db("sample_airbnb")
         .collection("listingsAndReviews")
@@ -43,10 +43,33 @@ router.get("/review/:id", async (req, res) => {
     res.json(review);
 });
 
-router.post("/review/:id", async (req, res) => {
+router.post("/reviews/:id", async (req, res) => {
    const createReview = await collection.insertOne(req.body);
     res.json(createReview);
 });
+
+router.post("/listings", async (req, res) => {
+    const createListing = await collection.insertOne(req.body);
+    res.json(createListing);
+});
+
+router.put("/listings", async (req, res) => {
+    const updateListing = await collection.updateOne(
+        {_id: ObjectId(req.body._id)},
+        {$set: req.body}
+    );
+    res.json(updateListing);
+});
+    
+router.delete("/listings", async (req, res) => {
+    const deleteListing = await collection.deleteOne(
+        {_id: ObjectId(req.body._id)}
+    );
+    res.json(deleteListing);
+});
+    
+
+
 
 
 export default router;
