@@ -3,10 +3,9 @@ import config from "./config";
 import loader from "./loader";
 import {ObjectId} from "mongodb";
 
-const {
-    db: {name, collectionName},
-} = config;
-
+const collection = loader 
+    .db(config.db.name)
+    .collection(config.db.collection);
 const router = new Router();
 
 // TODO: Add routes here (maybe 🤔 start with a GET test route)
@@ -43,5 +42,11 @@ router.get("/review/:id", async (req, res) => {
         .toArray();
     res.json(review);
 });
+
+router.post("/review/:id", async (req, res) => {
+   const createReview = await collection.insertOne(req.body);
+    res.json(createReview);
+});
+
 
 export default router;
