@@ -1,7 +1,7 @@
 import Router from "express";
 import config from "./config.js";
 import loader from "./loader.js";
-import {ObjectId} from "mongodb";
+import {} from "mongodb";
 
 const collection = loader 
     .db(config.db.name)
@@ -39,7 +39,7 @@ router.get("/reviews", async (_, res) => {
      const id = await loader
          .db("sample_airbnb")
          .collection("listingsAndReviews")
-         .findOne({_id: ObjectId(req.params.id)})
+         .findOne({_id: (req.params.id)})
          .toArray();
      res.json(id);
  });
@@ -48,7 +48,7 @@ router.get("/reviews/:id", async (req, res) => {
     const review = await loader
         .db("sample_airbnb")
         .collection("listingsAndReviews")
-        .findOne({_id: ObjectId(req.params.id)})
+        .findOne({_id: (req.params.id)})
         .toArray();
     res.json(review);
 });
@@ -65,7 +65,7 @@ router.post("/listings", async (req, res) => {
 
 router.put("/listings", async (req, res) => {
     const updateListing = await collection.updateOne(
-        {_id: ObjectId(req.body._id)},
+        {_id: (req.body._id)},
         {$set: req.body}
     );
     res.json(updateListing);
@@ -73,7 +73,7 @@ router.put("/listings", async (req, res) => {
     
 router.delete("/listings", async (req, res) => {
     const deleteListing = await collection.deleteOne(
-        {_id: ObjectId(req.body._id)}
+        {_id: (req.body._id)}
     );
     res.json(deleteListing);
 });
