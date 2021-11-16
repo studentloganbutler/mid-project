@@ -25,14 +25,24 @@ router.get("/", (_, res) => {
 //     res.json(listings);
 // });
 
-// router.get("/:id", async (req, res) => {
-//     const id = await loader
-//         .db("sample_airbnb")
-//         .collection("listingsAndReviews")
-//         .findOne({_id: ObjectId(req.params.id)})
-//         .toArray();
-//     res.json(id);
-// });
+router.get("/reviews", async (_, res) => {
+    const reviews = await loader
+        .db("sample_airbnb")
+        .collection("listingsAndReviews")
+        .find({})
+        .toArray();
+        res.json(reviews);
+        });
+
+
+ router.get("/:id", async (req, res) => {
+     const id = await loader
+         .db("sample_airbnb")
+         .collection("listingsAndReviews")
+         .findOne({_id: ObjectId(req.params.id)})
+         .toArray();
+     res.json(id);
+ });
 
 router.get("/reviews/:id", async (req, res) => {
     const review = await loader
