@@ -1,7 +1,7 @@
 import Router from "express";
 import config from "./config.js";
 import loader from "./loader.js";
-import {} from "mongodb";
+import {ObjectId} from "mongodb";
 
 const collection = loader 
     .db(config.db.name)
@@ -15,9 +15,12 @@ router.get("/", (_, res) => {
 
 // These routes go with localhost:3467
 
+// const currentListings = await collection.find( ).limit().toArray(); 
+   // res.json(currentListings);
+
 
 // router.get("/current-listings", async (_, res) => {
-//     const listings = await loader
+//     const listings = await collection
 //         .db("sample_airbnb")
 //         .collection("listingsAndReviews")
 //         .find(Parameters go here)
@@ -29,8 +32,7 @@ router.get("/reviews", async (_, res) => {
     const reviews = await loader
         .db("sample_airbnb")
         .collection("listingsAndReviews")
-        .find({})
-        .toArray();
+        .findOne({})
         res.json(reviews);
         });
 
@@ -39,8 +41,7 @@ router.get("/reviews", async (_, res) => {
      const id = await loader
          .db("sample_airbnb")
          .collection("listingsAndReviews")
-         .findOne({_id: (req.params.id)})
-         .toArray();
+         .findOne({_id: req.body.id});
      res.json(id);
  });
 
@@ -48,8 +49,7 @@ router.get("/reviews/:id", async (req, res) => {
     const review = await loader
         .db("sample_airbnb")
         .collection("listingsAndReviews")
-        .findOne({_id: (req.params.id)})
-        .toArray();
+        .findOne({_id: req.body.id});
     res.json(review);
 });
 
@@ -65,15 +65,15 @@ router.post("/listings", async (req, res) => {
 
 router.put("/listings", async (req, res) => {
     const updateListing = await collection.updateOne(
-        {_id: (req.body._id)},
-        {$set: req.body}
+        {_id: req.body._id},
+        {$set: req.body._id}
     );
     res.json(updateListing);
 });
     
 router.delete("/listings", async (req, res) => {
     const deleteListing = await collection.deleteOne(
-        {_id: (req.body._id)}
+        {_id: req.body._id}
     );
     res.json(deleteListing);
 });
