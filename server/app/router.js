@@ -19,14 +19,35 @@ router.get("/", (_, res) => {
    // res.json(currentListings);
 
 
-// router.get("/current-listings", async (_, res) => {
-//     const listings = await collection
-//         .db("sample_airbnb")
-//         .collection("listingsAndReviews")
-//         .find(Parameters go here)
-//         .toArray();
-//     res.json(listings);
-// });
+ router.get("/current-listings", async (req, res) => {
+    const filter1 = Object.entries(req.query).reduce((filterAcc, [limit, value]) => {
+        filterAcc[limit] = {$regex: value, $options: "i"};
+        return filterAcc
+    }, {}); 
+
+    console.log(filter1);
+
+    const filter2 = Object.entries(req.query).reduce((filterAcc, [maxprice, value]) => {
+        filterAcc[maxprice] = {$regex: value, $options: "i"};
+        return filterAcc
+    }, {});
+
+    console.log(filter2);
+
+    const filter3 = Object.entries(req.query).reduce((filterAcc, [keywords, value]) => {
+        filterAcc[keywords] = {$regex: value, $options: "i"};
+        return filterAcc
+    }, {});
+
+    console.log(filter3);
+
+     const currentlistings = await collection
+         .db(config.db.name)
+         .collection(config.db.collectionName)
+         .find(filter1, filter2, filter3)
+         .toArray();
+  res.json(currentlistings);
+});
 
 router.get("/reviews", async (_, res) => {
     const reviews = await loader
