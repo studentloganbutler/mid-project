@@ -13,7 +13,7 @@ router.get("/", (_, res) => {
     res.send("You have reached the Airbnb router!");
 });
 
-// These routes go with localhost:3467
+// These routes go with localhost:3467 
 
 // const currentListings = await collection.find( ).limit().toArray(); 
    // res.json(currentListings);
